@@ -107,12 +107,15 @@ function generateTable() {
         const building1 = currentZone[i];
         const building2 = currentZone[i + halfLength];
 
+        const time1 = sessionStorage.getItem(building1) || "";
+        const time2 = building2 ? sessionStorage.getItem(building2) || "" : "";
+
         tableBody.innerHTML += `
             <tr>
                 <td class="building" onclick="logTime(this)">${building1}</td>
-                <td class="time" onclick="editTime(this)"></td>
+                <td class="time" onclick="editTime(this)">${time1}</td>
                 ${building2 ? `<td class="building" onclick="logTime(this)">${building2}</td>
-                <td class="time" onclick="editTime(this)"></td>` : `<td></td><td></td>`}
+                <td class="time" onclick="editTime(this)">${time2}</td>` : `<td></td><td></td>`}
             </tr>`;
     }
 }
@@ -122,6 +125,7 @@ function logTime(buildingCell) {
     const now = new Date();
     const timeString = now.toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit' });
     timeCell.textContent = timeString;
+    sessionStorage.setItem(buildingCell.textContent, timeString);
 }
 
 function editTime(timeCell) {
@@ -130,6 +134,7 @@ function editTime(timeCell) {
 
     if (newTime && /^\d{2}:\d{2}$/.test(newTime)) {
         timeCell.textContent = newTime;
+        sessionStorage.setItem(timeCell.previousElementSibling.textContent, newTime);
     } else {
         alert("Invalid time format. Please enter the time in HH:mm format.");
     }
@@ -152,10 +157,11 @@ function setDate() {
     document.getElementById("date").textContent = dateString;
 }
 
+function toggleNightMode() {
+    document.body.classList.toggle('night-mode');
+}
+
 window.onload = () => {
     setDate();
     generateTable();
 };
-function toggleNightMode() {
-    document.body.classList.toggle('night-mode');
-}
