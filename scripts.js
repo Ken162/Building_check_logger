@@ -145,10 +145,10 @@ function editTime(timeCell) {
 function swapZone() {
     if (currentZone === zone12) {
         currentZone = zone34;
-        document.querySelector("#currentZone").textContent = "Zone 3/4";
+        document.querySelector("#zone-switcher").textContent = "Zone 3/4";
     } else {
         currentZone = zone12;
-        document.querySelector("#currentZone").textContent = "Zone 1/2";
+        document.querySelector("#zone-switcher").textContent = "Zone 1/2";
     }
     localStorage.setItem('currentZone', currentZone === zone12 ? 'zone12' : 'zone34'); 
     generateTable();
@@ -184,9 +184,9 @@ window.onload = () => {
     const savedZone = localStorage.getItem('currentZone'); 
     if (savedZone) {
         currentZone = savedZone === 'zone12' ? zone12 : zone34;
-        document.querySelector("#currentZone").textContent = currentZone === zone12 ? 'Zone 1/2' : 'Zone 3/4';
+        document.querySelector("#zone-switcher").textContent = currentZone === zone12 ? 'Zone 1/2' : 'Zone 3/4';
     } else {
-        document.querySelector("#currentZone").textContent = 'Zone 1/2';
+        document.querySelector("#zone-switcher").textContent = 'Zone 1/2';
     }
 
     generateTable();
