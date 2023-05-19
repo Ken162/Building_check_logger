@@ -5,14 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Building Check Logger</title>
     <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Additional styling */
+        #zone-switcher {
+            display: block;
+            margin-top: 10px;
+            margin-bottom: 20px;
+        }
+    </style>
 </head>
 <body>
-    <h1>
-        <span>Building Check Logger - </span>
-        <span id="date"></span>
-        <span id="currentZone"></span>
-        <button onclick="swapZone()">Switch Zone</button>
-    </h1>
+    <h1>Building Check Logger<span id="separator"> -- </span><span id="date"></span></h1>
+    <div id="currentZone"></div>
+    <button id="zone-switcher" onclick="swapZone()">Swap Zone</button>
     <div class="input-field">
         <label for="officer">Officer:</label>
         <input type="text" id="officer" name="officer">
