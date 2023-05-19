@@ -109,8 +109,8 @@ function generateTable() {
         const building1 = currentZone[i];
         const building2 = currentZone[i + halfLength];
 
-        const time1 = sessionStorage.getItem(building1) || "";
-        const time2 = building2 ? sessionStorage.getItem(building2) || "" : "";
+        const time1 = localStorage.getItem(building1) || ""; 
+        const time2 = building2 ? localStorage.getItem(building2) || "" : ""; 
 
         tableBody.innerHTML += `
             <tr>
@@ -127,7 +127,7 @@ function logTime(buildingCell) {
     const now = new Date();
     const timeString = now.toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit' });
     timeCell.textContent = timeString;
-    sessionStorage.setItem(buildingCell.textContent, timeString);
+    localStorage.setItem(buildingCell.textContent, timeString); 
 }
 
 function editTime(timeCell) {
@@ -136,7 +136,7 @@ function editTime(timeCell) {
 
     if (newTime && /^\d{2}:\d{2}$/.test(newTime)) {
         timeCell.textContent = newTime;
-        sessionStorage.setItem(timeCell.previousElementSibling.textContent, newTime);
+        localStorage.setItem(timeCell.previousElementSibling.textContent, newTime); 
     } else {
         alert("Invalid time format. Please enter the time in HH:mm format.");
     }
@@ -145,11 +145,12 @@ function editTime(timeCell) {
 function swapZone() {
     if (currentZone === zone12) {
         currentZone = zone34;
-        document.querySelector("button").textContent = "Zone 1/2";
+        document.querySelector("#currentZone").textContent = "Zone 3/4";
     } else {
         currentZone = zone12;
-        document.querySelector("button").textContent = "Zone 3/4";
+        document.querySelector("#currentZone").textContent = "Zone 1/2";
     }
+    localStorage.setItem('currentZone', currentZone === zone12 ? 'zone12' : 'zone34'); 
     generateTable();
 }
 
@@ -157,13 +158,36 @@ function setDate() {
     const now = new Date();
     const dateString = now.toLocaleDateString();
     document.getElementById("date").textContent = dateString;
+    localStorage.setItem('date', dateString); 
 }
 
 function toggleNightMode() {
     document.body.classList.toggle('night-mode');
 }
 
+function resetTimes() {
+    if (confirm("Are you sure you want to clear all times and refresh the date?")) {
+        localStorage.clear();
+        setDate();
+        generateTable();
+    }
+}
+
 window.onload = () => {
-    setDate();
+    const savedDate = localStorage.getItem('date'); 
+    if (savedDate) {
+        document.getElementById("date").textContent = savedDate;
+    } else {
+        setDate();
+    }
+
+    const savedZone = localStorage.getItem('currentZone'); 
+    if (savedZone) {
+        currentZone = savedZone === 'zone12' ? zone12 : zone34;
+        document.querySelector("#currentZone").textContent = currentZone === zone12 ? 'Zone 1/2' : 'Zone 3/4';
+    } else {
+        document.querySelector("#currentZone").textContent = 'Zone 1/2';
+    }
+
     generateTable();
 };
