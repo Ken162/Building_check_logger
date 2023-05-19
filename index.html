@@ -10,7 +10,8 @@
     <h1>
         <span>Building Check Logger - </span>
         <span id="date"></span>
-        <button onclick="swapZone()">Zone 1/2</button>
+        <span id="currentZone"></span>
+        <button onclick="swapZone()">Switch Zone</button>
     </h1>
     <div class="input-field">
         <label for="officer">Officer:</label>
@@ -30,7 +31,8 @@
         <input type="text" id="supervisor" name="supervisor">
     </div>
     <button onclick="window.print()">Print</button>
+    <button id="night-mode" onclick="toggleNightMode()">Night mode</button>
+    <button id="reset-button" onclick="resetTimes()">Reset Times and Refresh Date</button>
     <script src="scripts.js"></script>
 </body>
 </html>
-<button id="night-mode" onclick="toggleNightMode()">Night mode</button>
